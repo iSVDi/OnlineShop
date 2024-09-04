@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -34,9 +35,8 @@ public class Product {
     @Min(1)
     private Integer quantityInStock;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @ManyToMany(mappedBy = "products")
     @Valid
     @JsonIgnore
-    private ShopOrder order;
+    private List<ShopOrder> orders;
 }

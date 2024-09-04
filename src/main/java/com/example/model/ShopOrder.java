@@ -8,9 +8,11 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +22,7 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
+@Validated
 public class ShopOrder {
 
     @Id
@@ -31,7 +34,11 @@ public class ShopOrder {
     @Valid
     private Customer customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(name = "product_shopOrder_relations",
+    joinColumns = @JoinColumn(name = "orderId", referencedColumnName = "orderId"),
+    inverseJoinColumns = @JoinColumn(name = "productId", referencedColumnName = "productId")
+    )
     private List<@Valid Product> products;
 
     @Past
@@ -52,6 +59,7 @@ public class ShopOrder {
         this.orderDate = dto.getOrderDate();
         this.shippingAddress = dto.getShippingAddress();
         this.status = dto.getStatus();
+        this.products = new ArrayList<Product>();
     }
 
 
