@@ -34,7 +34,7 @@ public class ShopOrder {
     @Valid
     private Customer customer;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     @JoinTable(name = "product_shopOrder_relations",
     joinColumns = @JoinColumn(name = "orderId", referencedColumnName = "orderId"),
     inverseJoinColumns = @JoinColumn(name = "productId", referencedColumnName = "productId")

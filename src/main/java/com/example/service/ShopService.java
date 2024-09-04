@@ -59,7 +59,6 @@ public class ShopService {
     }
 
     public void deleteProduct(UUID id) {
-
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
         } else {
@@ -84,17 +83,18 @@ public class ShopService {
         }
 
         // get products
-        List<Product> products = productRepository.findAllById(shopOrderDTO.getProductsId());
-        if (products.isEmpty()) {
-            throw new ShopException(ShopExceptionTitle.EMPTY_PRODUCTS_LIST);
-        }
-
-        ShopOrder order = new ShopOrder(shopOrderDTO);
-
-        List<Product> acceptableProducts = products.stream()
+        List<Product> acceptableProducts = productRepository
+                .findAllById(shopOrderDTO.getProductsId())
+                .stream()
                 .filter(product -> {
                     return product.getQuantityInStock() > product.getOrders().size();
-                }).toList();
+                })
+                .toList();
+
+        if (acceptableProducts.isEmpty()) {
+            throw new ShopException(ShopExceptionTitle.EMPTY_PRODUCTS_LIST);
+        }
+        ShopOrder order = new ShopOrder(shopOrderDTO);
 
         acceptableProducts.forEach(product -> {
             order.getProducts().add(product);
