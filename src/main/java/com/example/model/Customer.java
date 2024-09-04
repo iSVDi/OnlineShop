@@ -1,5 +1,6 @@
 package com.example.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -40,6 +41,7 @@ public class Customer {
     @OneToOne
     @JoinColumn(name = "order_id")
     @Valid
+    @JsonIgnore
     private ShopOrder order;
 
 }
