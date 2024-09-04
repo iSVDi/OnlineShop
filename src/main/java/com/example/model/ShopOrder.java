@@ -1,5 +1,6 @@
 package com.example.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -18,20 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Getter
-
-/*
-//TODO add ShopOrderDTO
-//TODO implement ShopOrderDTO-> ShopOrder caster
-OrderDTO
-    customerID
-    productsID
-    orderDate
-    shippingAddress
-    status
-    TODO add check count of products
- */
-
-
+@Setter
 public class ShopOrder {
 
     @Id
@@ -48,6 +36,7 @@ public class ShopOrder {
 
     @Past
     @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate orderDate;
 
     @NotBlank
@@ -59,6 +48,11 @@ public class ShopOrder {
     @NotBlank
     private String status;
 
+    public ShopOrder(ShopOrderDTO dto) {
+        this.orderDate = dto.getOrderDate();
+        this.shippingAddress = dto.getShippingAddress();
+        this.status = dto.getStatus();
+    }
 
 
 }

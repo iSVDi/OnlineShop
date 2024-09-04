@@ -1,7 +1,5 @@
 package com.example.controller;
 
-import com.example.model.Product;
-import com.example.model.ShopOrder;
 import com.example.service.ShopService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -57,14 +55,14 @@ public class ShopController {
 
     //create order
     @PostMapping("createOrder")
-    void createOrder(@Validated @RequestBody ShopOrder order) {
-        System.out.println();
+    String createOrder(@RequestBody String jsonShopOrederDTO) {
+        return shopService.createOrder(jsonShopOrederDTO);
     }
 
     // read order
     @GetMapping("readOrder")
-    ShopOrder readOrder(@RequestParam(value = "id") UUID id) {
-        return new ShopOrder();
+    String readOrder(@RequestParam(value = "id") UUID id) {
+        return shopService.readOrder(id);
     }
 
 }

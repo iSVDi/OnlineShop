@@ -2,13 +2,17 @@ package com.example.tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class StringJsonConverter {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static <T> T toObject(String json, Class<T> classType) {
+    public StringJsonConverter() {
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        objectMapper.registerModule(new JavaTimeModule());
+    }
+    public <T> T toObject(String json, Class<T> classType) {
         try {
             return objectMapper.readValue(json, classType);
         } catch (JsonProcessingException e) {
@@ -16,7 +20,7 @@ public class StringJsonConverter {
         }
     }
 
-    public static <T> String toString(T object) {
+    public <T> String toString(T object) {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
