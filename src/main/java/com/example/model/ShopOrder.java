@@ -38,7 +38,8 @@ public class ShopOrder {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID orderId;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.REMOVE)
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     @Valid
     private Customer customer;
 

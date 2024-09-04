@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,10 +39,9 @@ public class Customer {
     @NotBlank
     private String contactNumber;
 
-    @OneToOne
-    @JoinColumn(name = "order_id")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     @Valid
     @JsonIgnore
-    private ShopOrder order;
+    private List<ShopOrder> orders;
 
 }

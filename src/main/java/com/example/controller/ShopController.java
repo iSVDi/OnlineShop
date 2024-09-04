@@ -2,47 +2,57 @@ package com.example.controller;
 
 import com.example.model.Product;
 import com.example.model.ShopOrder;
+import com.example.service.ShopService;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping
+@AllArgsConstructor
 @Validated
 public class ShopController {
 
+    private ShopService shopService;
+
+    //createCustomer
+
+    @PostMapping("createCustomer")
+    String createCustomer(@RequestBody String jsonCustomer) {
+        return shopService.createCustomer(jsonCustomer);
+    }
+
     // create product
     @PostMapping("createProduct")
-    void createProduct(@Validated @RequestBody Product product) {
-        System.out.println();
+    String createProduct(@RequestBody String jsonProduct) {
+        return shopService.createProduct(jsonProduct);
     }
 
     // read product
     @GetMapping("readProduct")
-    Product readProduct(@RequestParam(value = "id") UUID id) {
-        return new Product();
+    String readProduct(@RequestParam(value = "id") UUID id) {
+        return shopService.readProduct(id);
     }
 
     //  read all products
     @GetMapping("readAllProducts")
-    List<Product> readAllProduct() {
-        return new ArrayList<Product>();
+    String readAllProduct() {
+        return shopService.readAllProducts();
 
     }
 
     // update product
     @PutMapping("updateProduct")
-    Product updateProduct(@Validated @RequestBody Product product) {
-        return new Product();
+    String updateProduct(@RequestBody String jsonProduct) {
+        return shopService.updateProduct(jsonProduct);
     }
 
     // delete product
     @DeleteMapping("deleteProduct")
     void deleteProduct(@RequestParam(value = "id") UUID id) {
-        System.out.println();
+        shopService.deleteProduct(id);
     }
 
     //create order
