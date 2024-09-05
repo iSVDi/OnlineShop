@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -44,4 +45,16 @@ public class Customer {
     @JsonIgnore
     private List<ShopOrder> orders;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(customerId, customer.customerId) && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(email, customer.email) && Objects.equals(contactNumber, customer.contactNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, firstName, lastName, email, contactNumber, orders);
+    }
 }

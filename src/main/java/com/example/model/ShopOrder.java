@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -62,5 +63,16 @@ public class ShopOrder {
         this.products = new ArrayList<Product>();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShopOrder shopOrder = (ShopOrder) o;
+        return Objects.equals(orderId, shopOrder.orderId) && Objects.equals(customer, shopOrder.customer) && Objects.equals(products, shopOrder.products) && Objects.equals(orderDate, shopOrder.orderDate) && Objects.equals(shippingAddress, shopOrder.shippingAddress) && Objects.equals(totalPrice, shopOrder.totalPrice) && Objects.equals(status, shopOrder.status);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderId, customer, products, orderDate, shippingAddress, totalPrice, status);
+    }
 }
